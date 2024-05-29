@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Controls\InputArea.xaml.cs">
       <DependentUpon>InputArea.xaml</DependentUpon>
     </Compile>

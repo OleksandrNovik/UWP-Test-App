@@ -1,5 +1,9 @@
-﻿using SecondApp.Models;
+﻿using SecondApp.Common;
+using SecondApp.Models;
+using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Windows.UI.Popups;
 
 namespace SecondApp.ViewModels
 {
@@ -10,6 +14,12 @@ namespace SecondApp.ViewModels
         public string CurrentLastName { get; set; }
 
         public ObservableCollection<UserModel> Users { get; set; }
+
+        public ICommand Click => new RelayCommand<object>(async (o) =>
+        {
+            var box = new MessageDialog(CurrentFirstName + CurrentLastName);
+            await box.ShowAsync();
+        });
 
         public MainPageViewModel()
         {
