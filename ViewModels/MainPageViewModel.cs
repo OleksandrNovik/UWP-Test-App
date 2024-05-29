@@ -1,9 +1,12 @@
 ﻿using SecondApp.Common;
 using SecondApp.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml;
 
 namespace SecondApp.ViewModels
 {
@@ -73,6 +76,18 @@ namespace SecondApp.ViewModels
             Users = new ObservableCollection<UserModel>();
             // For start we can add user not edit
             ButtonClickCommand = AddUserCommand;
+            // Subscribing to event when application is exited
+            Application.Current.Suspending += SaveOnExitAsync;
+        }
+
+        private async void SaveOnExitAsync(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
+        {
+            await FileOperator.SaveUsersToFileAsync(Users);
+        }
+
+        private async Task<IList<UserModel>> GetUsersOnStartUpAsync()
+        {
+            return await FileOperator.GetUsersFromFileAsync();
         }
 
         #region Commands
@@ -110,7 +125,7 @@ namespace SecondApp.ViewModels
         public ICommand SelectEditedUser => new RelayCommand<UserModel>(user =>
         {
             if (user is null)
-                throw new System.ArgumentNullException("Null reference while deleting user.");
+                throw new System.ArgumentNullException("Null reference while editing user.");
             // Selecting current editable user
             selectedUser = user;
             // Setting values for input fields

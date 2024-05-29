@@ -34,6 +34,7 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
+                            
                             <Button 
                                 Command="{Binding SelectEditedUser, Source={StaticResource MainDataContext}}"
                                 CommandParameter="{Binding}" 
