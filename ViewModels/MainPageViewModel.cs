@@ -9,7 +9,14 @@ namespace SecondApp.ViewModels
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Fields for inputed first and last name for a new or editable user
+        /// </summary>
         private string currentFirstname, currentLastName;
+
+        /// <summary>
+        /// Prop for a property changed event to update UI
+        /// </summary>
         public string CurrentFirstName
         {
             get => currentFirstname;
@@ -20,6 +27,9 @@ namespace SecondApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Prop for a property changed event to update UI
+        /// </summary>
         public string CurrentLastName
         {
             get => currentLastName;
@@ -30,7 +40,14 @@ namespace SecondApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Current button content to show the functionality of button
+        /// </summary>
         private string currentButtonName = ButtonStates.Add;
+
+        /// <summary>
+        /// Fires property changed event for UI to update button content
+        /// </summary>
         public string ButtonFunctionality
         {
             get => currentButtonName;
@@ -41,22 +58,28 @@ namespace SecondApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Collection of users in the table 
+        /// </summary>
         public ObservableCollection<UserModel> Users { get; set; }
 
+        /// <summary>
+        /// Selected user for editing his data
+        /// </summary>
         private UserModel selectedUser;
 
         public MainPageViewModel()
         {
-            Users = new ObservableCollection<UserModel>()
-            {
-                new UserModel { FirstName = "FirstName", LastName = "LastName" }
-            };
+            Users = new ObservableCollection<UserModel>();
             // For start we can add user not edit
             ButtonClickCommand = AddUserCommand;
         }
 
         #region Commands
 
+        /// <summary>
+        /// Adds user to the list
+        /// </summary>
         private ICommand AddUserCommand => new RelayCommand<object>(o =>
         {
             var user = new UserModel { FirstName = CurrentFirstName, LastName = CurrentLastName };
@@ -64,6 +87,9 @@ namespace SecondApp.ViewModels
             CurrentFirstName = CurrentLastName = string.Empty;
         });
 
+        /// <summary>
+        /// Gets data from input fields and alters user data in the list
+        /// </summary>
         private ICommand EditUserCommand => new RelayCommand<object>(o =>
         {
             if (selectedUser is null)
@@ -71,22 +97,28 @@ namespace SecondApp.ViewModels
             selectedUser.FirstName = CurrentFirstName;
             selectedUser.LastName = CurrentLastName;
 
+            // Clearing input fields
             CurrentFirstName = CurrentLastName = string.Empty;
+            // Changing back to add user mode
             ButtonFunctionality = ButtonStates.Add;
             ButtonClickCommand = AddUserCommand;
         });
 
-        public ICommand SelectEditedUser => new RelayCommand<object>(o =>
+        /// <summary>
+        /// Selects data about user and gets UI ready for editing process
+        /// </summary>
+        public ICommand SelectEditedUser => new RelayCommand<UserModel>(user =>
         {
-            if (o is UserModel user)
-            {
-                selectedUser = user;
-                CurrentFirstName = user.FirstName;
-                CurrentLastName = user.LastName;
-
-                ButtonClickCommand = EditUserCommand;
-                ButtonFunctionality = ButtonStates.Apply;
-            }
+            if (user is null)
+                throw new System.ArgumentNullException("Null reference while deleting user.");
+            // Selecting current editable user
+            selectedUser = user;
+            // Setting values for input fields
+            CurrentFirstName = user.FirstName;
+            CurrentLastName = user.LastName;
+            // Changing mode to edit mode
+            ButtonClickCommand = EditUserCommand;
+            ButtonFunctionality = ButtonStates.Apply;
         });
 
         /// <summary>
@@ -106,6 +138,17 @@ namespace SecondApp.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Deletes user from the list
+        /// </summary>
+        public ICommand DeleteUserCommand => new RelayCommand<UserModel>((user) =>
+        {
+            if (user is null)
+                throw new System.ArgumentNullException("Null reference while deleting user.");
+
+            Users.Remove(user);
+        });
 
         #endregion
 

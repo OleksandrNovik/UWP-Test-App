@@ -36,9 +36,13 @@
                             </Grid.ColumnDefinitions>
                             <Button 
                                 Command="{Binding SelectEditedUser, Source={StaticResource MainDataContext}}"
-                                CommandParameter="{Binding}"
-                                    >Edit</Button>
-                            <Button Grid.Column="1">Delete</Button>
+                                CommandParameter="{Binding}" 
+                                Content="Edit" />
+
+                            <Button Grid.Column="1"
+                                    Command="{Binding DeleteUserCommand, Source={StaticResource MainDataContext}}"
+                                    CommandParameter="{Binding}"
+                                    Content="Delete" />
                         </Grid>
                     </Grid>
                 </DataTemplate>
