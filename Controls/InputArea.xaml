@@ -30,6 +30,9 @@
             <TextBlock Text="Last Name" />
             <TextBox Margin="0 0 10 0" Text="{Binding CurrentLastName, Mode=TwoWay}" />
         </StackPanel>
-        <Button Grid.Column="2" Command="{Binding Click}">Add</Button>
+        <Button 
+            Grid.Column="2" 
+            Content="{Binding ButtonFunctionality}" 
+            Command="{Binding ButtonClickCommand}"/>
     </Grid>
 </UserControl>
