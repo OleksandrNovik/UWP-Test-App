@@ -10,6 +10,36 @@
     d:DesignWidth="400">
 
     <Grid>
-        
+        <ListView ItemsSource="{Binding Users}" Padding="20" Background="LightGray">
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Background="White" Padding="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock VerticalAlignment="Center" Text="{Binding FirstName}" />
+                        <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding LastName}" />
+                        <Grid Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button>Edit</Button>
+                            <Button Grid.Column="1">Delete</Button>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

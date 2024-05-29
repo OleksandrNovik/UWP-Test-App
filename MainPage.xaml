@@ -15,7 +15,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <controls:InputArea />
-            <controls:UsersListView />
+            <controls:UsersListView Grid.Row="1" />
         </Grid>
     </Grid>
 </Page>

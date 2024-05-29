@@ -24,11 +24,11 @@
         </Grid.ColumnDefinitions>
         <StackPanel Style="{StaticResource LabeledInputArea}">
             <TextBlock Text="First Name" />
-            <TextBox Margin="0 0 10 0" />
+            <TextBox Margin="0 0 10 0" Text="{Binding CurrentFirstName }" />
         </StackPanel>
         <StackPanel Grid.Column="1" Style="{StaticResource LabeledInputArea}">
             <TextBlock Text="Last Name" />
-            <TextBox Margin="0 0 10 0" />
+            <TextBox Margin="0 0 10 0" Text="{Binding CurrentLastName }" />
         </StackPanel>
         <Button Grid.Column="2">Add</Button>
     </Grid>
