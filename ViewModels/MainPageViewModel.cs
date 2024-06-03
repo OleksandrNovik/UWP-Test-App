@@ -73,7 +73,6 @@ namespace SecondApp.ViewModels
 
         public MainPageViewModel()
         {
-            Users = new ObservableCollection<UserModel>();
             // For start we can add user not edit
             ButtonClickCommand = AddUserCommand;
             // Subscribing to event when application is exited
