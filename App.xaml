@@ -2,6 +2,14 @@
     x:Class="SecondApp.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:SecondApp">
+    xmlns:local="using:SecondApp"
+    xmlns:viewModels="using:SecondApp.ViewModels">
 
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <viewModels:MainPageViewModel x:Key="MainDataContext" />
+
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>
