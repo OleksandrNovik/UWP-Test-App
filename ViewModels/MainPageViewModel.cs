@@ -25,8 +25,11 @@ namespace SecondApp.ViewModels
             get => currentFirstname;
             set
             {
-                currentFirstname = value;
-                OnPropertyChanged();
+                if (currentFirstname != value)
+                {
+                    currentFirstname = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -38,8 +41,11 @@ namespace SecondApp.ViewModels
             get => currentLastName;
             set
             {
-                currentLastName = value;
-                OnPropertyChanged();
+                if (currentLastName != value)
+                {
+                    currentLastName = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -56,15 +62,31 @@ namespace SecondApp.ViewModels
             get => currentButtonName;
             set
             {
-                currentButtonName = value;
-                OnPropertyChanged();
+                if (currentButtonName != value)
+                {
+                    currentButtonName = value;
+                    OnPropertyChanged();
+                }
             }
         }
+
+        private ObservableCollection<UserModel> users;
 
         /// <summary>
         /// Collection of users in the table 
         /// </summary>
-        public ObservableCollection<UserModel> Users { get; set; }
+        public ObservableCollection<UserModel> Users
+        {
+            get => users;
+            set
+            {
+                if (users != value)
+                {
+                    users = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Selected user for editing his data
@@ -84,9 +106,10 @@ namespace SecondApp.ViewModels
             await FileOperator.SaveUsersToFileAsync(Users);
         }
 
-        private async Task<IList<UserModel>> GetUsersOnStartUpAsync()
+        public async Task GetUsersOnStartUpAsync()
         {
-            return await FileOperator.GetUsersFromFileAsync();
+            var list = await FileOperator.GetUsersFromFileAsync();
+            Users = new ObservableCollection<UserModel>(list ?? new List<UserModel>());
         }
 
         #region Commands
@@ -96,9 +119,13 @@ namespace SecondApp.ViewModels
         /// </summary>
         private ICommand AddUserCommand => new RelayCommand<object>(o =>
         {
-            var user = new UserModel { FirstName = CurrentFirstName, LastName = CurrentLastName };
-            Users.Add(user);
-            CurrentFirstName = CurrentLastName = string.Empty;
+            // Check if inputed last and first name are not empty
+            if (CurrentFirstName != string.Empty && CurrentLastName != string.Empty)
+            {
+                var user = new UserModel { FirstName = CurrentFirstName, LastName = CurrentLastName };
+                Users.Add(user);
+                CurrentFirstName = CurrentLastName = string.Empty;
+            }
         });
 
         /// <summary>
@@ -106,16 +133,17 @@ namespace SecondApp.ViewModels
         /// </summary>
         private ICommand EditUserCommand => new RelayCommand<object>(o =>
         {
-            if (selectedUser is null)
-                return;
-            selectedUser.FirstName = CurrentFirstName;
-            selectedUser.LastName = CurrentLastName;
+            if (selectedUser != null)
+            {
+                selectedUser.FirstName = CurrentFirstName;
+                selectedUser.LastName = CurrentLastName;
 
-            // Clearing input fields
-            CurrentFirstName = CurrentLastName = string.Empty;
-            // Changing back to add user mode
-            ButtonFunctionality = ButtonStates.Add;
-            ButtonClickCommand = AddUserCommand;
+                // Clearing input fields
+                CurrentFirstName = CurrentLastName = string.Empty;
+                // Changing back to add user mode
+                ButtonFunctionality = ButtonStates.Add;
+                ButtonClickCommand = AddUserCommand;
+            }
         });
 
         /// <summary>
@@ -148,8 +176,11 @@ namespace SecondApp.ViewModels
             get => currentButtonCommand;
             set
             {
-                currentButtonCommand = value;
-                OnPropertyChanged();
+                if (currentButtonCommand != value)
+                {
+                    currentButtonCommand = value;
+                    OnPropertyChanged();
+                }
             }
         }
 

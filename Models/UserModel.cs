@@ -14,8 +14,11 @@ namespace SecondApp.Models
             get => firstName;
             set
             {
-                firstName = value;
-                OnPropertyChanged();
+                if (firstName != value)
+                {
+                    firstName = value;
+                    OnPropertyChanged();
+                }
             }
         }
         public string LastName
@@ -23,8 +26,11 @@ namespace SecondApp.Models
             get => lastName;
             set
             {
-                lastName = value;
-                OnPropertyChanged();
+                if (lastName != value)
+                {
+                    lastName = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
