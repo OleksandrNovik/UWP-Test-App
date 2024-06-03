@@ -87,9 +87,17 @@ namespace SecondApp
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
+
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            // Saving users to file on exit
+            var mainPage = rootFrame.Content as MainPage;
+            var vm = mainPage.DataContext as MainPageViewModel;
+            await vm.SaveOnExitAsync();
+
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }

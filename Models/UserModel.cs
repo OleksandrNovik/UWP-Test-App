@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace SecondApp.Models
@@ -33,6 +34,29 @@ namespace SecondApp.Models
                 }
             }
         }
+
+        /// <summary>
+        /// Decides if user is currently edited
+        /// </summary>
+        private bool edited = false;
+
+        /// <summary>
+        /// Full prop for property changed event
+        /// </summary>
+        [JsonIgnore]
+        public bool IsEdited
+        {
+            get => edited;
+            set
+            {
+                if (edited != value)
+                {
+                    edited = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
 
         #region INotifyProperyChanged
 

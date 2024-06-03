@@ -32,7 +32,7 @@
         </StackPanel>
         <Button 
             Grid.Column="2" 
-            Content="{Binding ButtonFunctionality}" 
-            Command="{Binding ButtonClickCommand}"/>
+            Content="Add" 
+            Command="{Binding AddUserCommand}"/>
     </Grid>
 </UserControl>

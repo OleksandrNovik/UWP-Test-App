@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Xaml;
 
 namespace SecondApp.ViewModels
 {
@@ -49,27 +48,6 @@ namespace SecondApp.ViewModels
             }
         }
 
-        /// <summary>
-        /// Current button content to show the functionality of button
-        /// </summary>
-        private string currentButtonName = ButtonStates.Add;
-
-        /// <summary>
-        /// Fires property changed event for UI to update button content
-        /// </summary>
-        public string ButtonFunctionality
-        {
-            get => currentButtonName;
-            set
-            {
-                if (currentButtonName != value)
-                {
-                    currentButtonName = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         private ObservableCollection<UserModel> users;
 
         /// <summary>
@@ -96,12 +74,10 @@ namespace SecondApp.ViewModels
         public MainPageViewModel()
         {
             // For start we can add user not edit
-            ButtonClickCommand = AddUserCommand;
-            // Subscribing to event when application is exited
-            Application.Current.Suspending += SaveOnExitAsync;
+            EditUserCommand = SelectEditedUser;
         }
 
-        private async void SaveOnExitAsync(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
+        public async Task SaveOnExitAsync()
         {
             await FileOperator.SaveUsersToFileAsync(Users);
         }
@@ -117,10 +93,11 @@ namespace SecondApp.ViewModels
         /// <summary>
         /// Adds user to the list
         /// </summary>
-        private ICommand AddUserCommand => new RelayCommand<object>(o =>
+        public ICommand AddUserCommand => new RelayCommand<object>(o =>
         {
             // Check if inputed last and first name are not empty
-            if (CurrentFirstName != string.Empty && CurrentLastName != string.Empty)
+            if (!string.IsNullOrWhiteSpace(CurrentFirstName)
+                && !string.IsNullOrWhiteSpace(CurrentLastName))
             {
                 var user = new UserModel { FirstName = CurrentFirstName, LastName = CurrentLastName };
                 Users.Add(user);
@@ -129,25 +106,21 @@ namespace SecondApp.ViewModels
         });
 
         /// <summary>
-        /// Gets data from input fields and alters user data in the list
+        /// Saves changes for a user when its done being edited
         /// </summary>
-        private ICommand EditUserCommand => new RelayCommand<object>(o =>
+        private ICommand SaveChangesCommand => new RelayCommand<object>(o =>
         {
             if (selectedUser != null)
             {
-                selectedUser.FirstName = CurrentFirstName;
-                selectedUser.LastName = CurrentLastName;
-
-                // Clearing input fields
-                CurrentFirstName = CurrentLastName = string.Empty;
-                // Changing back to add user mode
-                ButtonFunctionality = ButtonStates.Add;
-                ButtonClickCommand = AddUserCommand;
+                // We finished editing user
+                selectedUser.IsEdited = false;
+                // Now button changes mode for user again
+                EditUserCommand = SelectEditedUser;
             }
         });
 
         /// <summary>
-        /// Selects data about user and gets UI ready for editing process
+        /// Changes state of selected user from reading to editing
         /// </summary>
         public ICommand SelectEditedUser => new RelayCommand<UserModel>(user =>
         {
@@ -155,30 +128,28 @@ namespace SecondApp.ViewModels
                 throw new System.ArgumentNullException("Null reference while editing user.");
             // Selecting current editable user
             selectedUser = user;
-            // Setting values for input fields
-            CurrentFirstName = user.FirstName;
-            CurrentLastName = user.LastName;
-            // Changing mode to edit mode
-            ButtonClickCommand = EditUserCommand;
-            ButtonFunctionality = ButtonStates.Apply;
+            // Started editing this user
+            selectedUser.IsEdited = true;
+            // Now button is saving changes for a user, not changing mode from read to write 
+            EditUserCommand = SaveChangesCommand;
         });
 
         /// <summary>
-        /// Field for current command to identify if user if we add user or edit existing
+        /// Field for current command to identify if user is edited or selected
         /// </summary>
-        private ICommand currentButtonCommand;
+        private ICommand editUserCommand;
 
         /// <summary>
         /// Prop to run on property changed event for UI
         /// </summary>
-        public ICommand ButtonClickCommand
+        public ICommand EditUserCommand
         {
-            get => currentButtonCommand;
+            get => editUserCommand;
             set
             {
-                if (currentButtonCommand != value)
+                if (editUserCommand != value)
                 {
-                    currentButtonCommand = value;
+                    editUserCommand = value;
                     OnPropertyChanged();
                 }
             }
@@ -207,13 +178,5 @@ namespace SecondApp.ViewModels
 
         #endregion
 
-        /// <summary>
-        /// Static class to hold states of button name depending on it's current functionality
-        /// </summary>
-        private static class ButtonStates
-        {
-            public const string Add = "Add";
-            public const string Apply = "Apply";
-        }
     }
 }
