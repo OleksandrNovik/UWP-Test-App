@@ -4,11 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SecondApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:SecondApp.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:common="using:SecondApp.Common"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
 
     <Page.Resources>
         <Style x:Key="LabeledInputArea" TargetType="StackPanel">
@@ -64,10 +63,16 @@
                 <GridView  Grid.Row="1" ItemsSource="{Binding Users}" Padding="20" Background="LightGray">
 
                     <GridView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
+                        <Style TargetType="GridViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         </Style>
                     </GridView.ItemContainerStyle>
+
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
 
                     <GridView.ItemTemplate>
                         <DataTemplate>
@@ -79,25 +84,25 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBox 
-                        VerticalAlignment="Center"
-                        Text="{Binding FirstName, Mode=TwoWay}"
-                        Visibility="{Binding IsEdited, Converter={StaticResource EditConverter}}"
-                        />
+                                    VerticalAlignment="Center"
+                                    Text="{Binding FirstName, Mode=TwoWay}"
+                                    Visibility="{Binding IsEdited, Converter={StaticResource EditConverter}}"
+                                    />
                                 <TextBox 
-                        VerticalAlignment="Center"
-                        Grid.Column="1" 
-                        Text="{Binding LastName, Mode=TwoWay}"
-                        Visibility="{Binding IsEdited, Converter={StaticResource EditConverter}}"
-                        />
+                                    VerticalAlignment="Center"
+                                    Grid.Column="1" 
+                                    Text="{Binding LastName, Mode=TwoWay}"
+                                    Visibility="{Binding IsEdited, Converter={StaticResource EditConverter}}"
+                                    />
                                 <TextBlock 
-                        Visibility="{Binding IsEdited, Converter={StaticResource EditConverter}, ConverterParameter=Inverted}"
-                        VerticalAlignment="Center" 
-                        Text="{Binding FirstName}" />
+                                    Visibility="{Binding IsEdited, Converter={StaticResource EditConverter}, ConverterParameter=Inverted}"
+                                    VerticalAlignment="Center" 
+                                    Text="{Binding FirstName}" />
                                 <TextBlock 
-                        Visibility="{Binding IsEdited, Converter={StaticResource EditConverter}, ConverterParameter=Inverted}"
-                        VerticalAlignment="Center" 
-                        Grid.Column="1" 
-                        Text="{Binding LastName}" />
+                                    Visibility="{Binding IsEdited, Converter={StaticResource EditConverter}, ConverterParameter=Inverted}"
+                                    VerticalAlignment="Center" 
+                                    Grid.Column="1" 
+                                    Text="{Binding LastName}" />
                                 <Grid Column="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
@@ -105,14 +110,14 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Button 
-                            Command="{Binding EditUserCommand, Source={StaticResource MainDataContext}}"
-                            CommandParameter="{Binding}" 
-                            Content="{Binding IsEdited, Converter={StaticResource EditConverter} }" />
+                                        Command="{Binding EditUserCommand, Source={StaticResource MainDataContext}}"
+                                        CommandParameter="{Binding}" 
+                                        Content="{Binding IsEdited, Converter={StaticResource EditConverter} }" />
 
                                     <Button Grid.Column="1"
-                                Command="{Binding DeleteUserCommand, Source={StaticResource MainDataContext}}"
-                                CommandParameter="{Binding}"
-                                Content="Delete" />
+                                        Command="{Binding DeleteUserCommand, Source={StaticResource MainDataContext}}"
+                                        CommandParameter="{Binding}"
+                                        Content="Delete" />
                                 </Grid>
                             </Grid>
                         </DataTemplate>
