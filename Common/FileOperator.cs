@@ -21,9 +21,14 @@ namespace SecondApp.Common
 
         public static async Task<IList<UserModel>> GetUsersFromFileAsync()
         {
-            var file = await storage.GetFileAsync(fileName);
-            var json = await FileIO.ReadTextAsync(file);
-            var users = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserModel>>(json);
+            var item = await storage.TryGetItemAsync(fileName);
+            List<UserModel> users = null;
+            // If file was opened
+            if (item != null && item is StorageFile file)
+            {
+                var json = await FileIO.ReadTextAsync(file);
+                users = Newtonsoft.Json.JsonConvert.DeserializeObject<List<UserModel>>(json);
+            }
             return users;
         }
 
