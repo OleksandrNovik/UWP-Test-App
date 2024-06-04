@@ -60,7 +60,10 @@
                     <TextBlock Grid.Column="1" Text="Last Name" />
 
                 </Grid>
-                <GridView  Grid.Row="1" ItemsSource="{Binding Users}" Padding="20">
+                <GridView  
+                    Grid.Row="1" 
+                    ItemsSource="{Binding Users}" 
+                    Padding="20">
 
                     <GridView.ItemContainerStyle>
                         <Style TargetType="GridViewItem">
