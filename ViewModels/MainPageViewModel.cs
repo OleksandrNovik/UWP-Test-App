@@ -67,21 +67,18 @@ namespace SecondApp.ViewModels
         }
 
         /// <summary>
-        /// Selected user for editing his data
+        /// Saving main data from application to a json file
         /// </summary>
-        private UserModel selectedUser;
-
-        public MainPageViewModel()
-        {
-            // For start we can add user not edit
-            EditUserCommand = SelectEditedUser;
-        }
-
+        /// <returns> Status of operation </returns>
         public async Task SaveOnExitAsync()
         {
             await FileOperator.SaveUsersToFileAsync(Users);
         }
 
+        /// <summary>
+        /// Gets initial data from json file
+        /// </summary>
+        /// <returns> Status of operation </returns>
         public async Task GetUsersOnStartUpAsync()
         {
             var list = await FileOperator.GetUsersFromFileAsync();
@@ -106,59 +103,21 @@ namespace SecondApp.ViewModels
         });
 
         /// <summary>
-        /// Saves changes for a user when its done being edited
+        /// Command that switches mode for a user from edit to read-only
         /// </summary>
-        private ICommand SaveChangesCommand => new RelayCommand<object>(o =>
-        {
-            if (selectedUser != null)
-            {
-                // We finished editing user
-                selectedUser.IsEdited = false;
-                // Now button changes mode for user again
-                EditUserCommand = SelectEditedUser;
-            }
-        });
-
-        /// <summary>
-        /// Changes state of selected user from reading to editing
-        /// </summary>
-        public ICommand SelectEditedUser => new RelayCommand<UserModel>(user =>
+        public ICommand EditUserCommand => new RelayCommand<UserModel>(user =>
         {
             if (user is null)
                 throw new System.ArgumentNullException("Null reference while editing user.");
-            // Selecting current editable user
-            selectedUser = user;
-            // Started editing this user
-            selectedUser.IsEdited = true;
-            // Now button is saving changes for a user, not changing mode from read to write 
-            EditUserCommand = SaveChangesCommand;
+
+            // Switches editable mode for user 
+            user.IsEdited = !user.IsEdited;
         });
-
-        /// <summary>
-        /// Field for current command to identify if user is edited or selected
-        /// </summary>
-        private ICommand editUserCommand;
-
-        /// <summary>
-        /// Prop to run on property changed event for UI
-        /// </summary>
-        public ICommand EditUserCommand
-        {
-            get => editUserCommand;
-            set
-            {
-                if (editUserCommand != value)
-                {
-                    editUserCommand = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
 
         /// <summary>
         /// Deletes user from the list
         /// </summary>
-        public ICommand DeleteUserCommand => new RelayCommand<UserModel>((user) =>
+        public ICommand DeleteUserCommand => new RelayCommand<UserModel>(user =>
         {
             if (user is null)
                 throw new System.ArgumentNullException("Null reference while deleting user.");

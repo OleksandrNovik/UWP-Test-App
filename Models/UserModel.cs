@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace SecondApp.Models
@@ -43,7 +42,6 @@ namespace SecondApp.Models
         /// <summary>
         /// Full prop for property changed event
         /// </summary>
-        [JsonIgnore]
         public bool IsEdited
         {
             get => edited;
