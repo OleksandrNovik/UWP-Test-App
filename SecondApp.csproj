@@ -122,6 +122,7 @@
     <Compile Include="Common\EditedUserConverter.cs" />
     <Compile Include="Common\FileOperator.cs" />
     <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="DTOs\SaveDataDTO.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

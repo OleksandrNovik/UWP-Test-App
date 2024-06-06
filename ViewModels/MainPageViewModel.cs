@@ -1,11 +1,13 @@
 ﻿using SecondApp.Common;
+using SecondApp.DTOs;
 using SecondApp.Models;
-using System.Collections.Generic;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml.Controls;
 
 namespace SecondApp.ViewModels
 {
@@ -72,7 +74,16 @@ namespace SecondApp.ViewModels
         /// <returns> Status of operation </returns>
         public async Task SaveOnExitAsync()
         {
-            await FileOperator.SaveUsersToFileAsync(Users);
+            var data = new SaveDataDTO
+            {
+                Users = Users,
+                Inputs = new UserModel
+                {
+                    FirstName = CurrentFirstName,
+                    LastName = CurrentLastName
+                },
+            };
+            await FileOperator.SaveUsersToFileAsync(data);
         }
 
         /// <summary>
@@ -81,8 +92,19 @@ namespace SecondApp.ViewModels
         /// <returns> Status of operation </returns>
         public async Task GetUsersOnStartUpAsync()
         {
-            var list = await FileOperator.GetUsersFromFileAsync();
-            Users = new ObservableCollection<UserModel>(list ?? new List<UserModel>());
+            var data = await FileOperator.GetUsersFromFileAsync();
+
+            // No data provided (file does not exist)
+            if (data is null)
+            {
+                Users = new ObservableCollection<UserModel>();
+            }
+            else
+            {
+                Users = new ObservableCollection<UserModel>(data.Users);
+                CurrentFirstName = data.Inputs.FirstName;
+                CurrentLastName = data.Inputs.LastName;
+            }
         }
 
         #region Commands
@@ -90,7 +112,7 @@ namespace SecondApp.ViewModels
         /// <summary>
         /// Adds user to the list
         /// </summary>
-        public ICommand AddUserCommand => new RelayCommand<object>(o =>
+        public ICommand AddUserCommand => new RelayCommand<object>(async o =>
         {
             // Check if inputed last and first name are not empty
             if (!string.IsNullOrWhiteSpace(CurrentFirstName)
@@ -100,6 +122,16 @@ namespace SecondApp.ViewModels
                 Users.Add(user);
                 CurrentFirstName = CurrentLastName = string.Empty;
             }
+            else
+            {
+                var dialog = new ContentDialog
+                {
+                    Content = "Cannot add user with empty first or last name.",
+                    Title = "User's name is empty",
+                    CloseButtonText = "Ok"
+                };
+                await dialog.ShowAsync();
+            }
         });
 
         /// <summary>
@@ -108,7 +140,7 @@ namespace SecondApp.ViewModels
         public ICommand EditUserCommand => new RelayCommand<UserModel>(user =>
         {
             if (user is null)
-                throw new System.ArgumentNullException("Null reference while editing user.");
+                throw new ArgumentNullException("Null reference while editing user.");
 
             // Switches editable mode for user 
             user.IsEdited = !user.IsEdited;
@@ -120,7 +152,7 @@ namespace SecondApp.ViewModels
         public ICommand DeleteUserCommand => new RelayCommand<UserModel>(user =>
         {
             if (user is null)
-                throw new System.ArgumentNullException("Null reference while deleting user.");
+                throw new ArgumentNullException("Null reference while deleting user.");
 
             Users.Remove(user);
         });
