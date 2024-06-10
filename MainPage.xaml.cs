@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using SecondApp.ViewModels;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -10,10 +11,12 @@ namespace SecondApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public MainPageViewModel ViewModel { get; set; }
         public MainPage()
         {
             this.InitializeComponent();
-            this.DataContext = Application.Current.Resources["MainDataContext"];
+            this.ViewModel = Application.Current.Resources["MainDataContext"] as MainPageViewModel;
+            this.DataContext = this.ViewModel;
         }
     }
 }
