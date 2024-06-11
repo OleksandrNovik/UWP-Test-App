@@ -1,47 +1,76 @@
 ﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace SecondApp.Models
 {
-    public class UserModel : INotifyPropertyChanged
+    public class UserModel : BaseModel, IEditableObject
     {
-        private string firstName;
+        #region Editable Object
+        private struct UserData
+        {
+            public string firstName, lastName;
+        }
 
-        private string lastName;
+        private UserData currentData;
+        private UserData backUpData;
 
+        public UserModel()
+        {
+            currentData = new UserData();
+        }
+
+        public void BeginEdit()
+        {
+            if (!edited)
+            {
+                backUpData = currentData;
+                edited = true;
+            }
+        }
+
+        public void CancelEdit()
+        {
+            if (edited)
+            {
+                currentData = backUpData;
+                edited = false;
+            }
+        }
+
+        public void EndEdit()
+        {
+            if (edited)
+            {
+                backUpData = new UserData();
+                edited = false;
+            }
+        }
+        #endregion
         public string FirstName
         {
-            get => firstName;
+            get => currentData.firstName;
             set
             {
-                if (firstName != value)
+                if (currentData.firstName != value)
                 {
-                    firstName = value;
+                    currentData.firstName = value;
                     OnPropertyChanged();
                 }
             }
         }
         public string LastName
         {
-            get => lastName;
+            get => currentData.lastName;
             set
             {
-                if (lastName != value)
+                if (currentData.lastName != value)
                 {
-                    lastName = value;
+                    currentData.lastName = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        /// <summary>
-        /// Decides if user is currently edited
-        /// </summary>
         private bool edited = false;
-
-        /// <summary>
-        /// Full prop for property changed event
-        /// </summary>
         public bool IsEdited
         {
             get => edited;
@@ -54,16 +83,5 @@ namespace SecondApp.Models
                 }
             }
         }
-
-
-        #region INotifyProperyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
     }
 }

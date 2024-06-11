@@ -135,7 +135,10 @@
                                     <Button Grid.Column="1"
                                         Command="{Binding DeleteUserCommand, Source={StaticResource MainDataContext}}"
                                         CommandParameter="{x:Bind}"
-                                        Content="Delete" />
+                                        ToolTipService.ToolTip="Delete"
+                                            >
+                                        <SymbolIcon Symbol="Delete" />
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </DataTemplate>
