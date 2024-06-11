@@ -135,18 +135,6 @@ namespace SecondApp.ViewModels
         });
 
         /// <summary>
-        /// Command that switches mode for a user from edit to read-only
-        /// </summary>
-        public ICommand EditUserCommand => new RelayCommand<UserModel>(user =>
-        {
-            if (user is null)
-                throw new ArgumentNullException("Null reference while editing user.");
-
-            // Switches editable mode for user 
-            user.IsEdited = !user.IsEdited;
-        });
-
-        /// <summary>
         /// Deletes user from the list
         /// </summary>
         public ICommand DeleteUserCommand => new RelayCommand<UserModel>(user =>

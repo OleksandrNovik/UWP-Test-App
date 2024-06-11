@@ -11,7 +11,10 @@ namespace SecondApp.Models
         }
 
         private UserData currentData;
+
         private UserData backUpData;
+
+        private bool edited = false;
 
         public UserModel()
         {
@@ -65,20 +68,6 @@ namespace SecondApp.Models
                 if (currentData.lastName != value)
                 {
                     currentData.lastName = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private bool edited = false;
-        public bool IsEdited
-        {
-            get => edited;
-            set
-            {
-                if (edited != value)
-                {
-                    edited = value;
                     OnPropertyChanged();
                 }
             }
