@@ -119,9 +119,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\EditedUserConverter.cs" />
+    <Compile Include="Common\Dialog.cs" />
     <Compile Include="Common\FileOperator.cs" />
     <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Common\Validator.cs" />
     <Compile Include="DTOs\SaveDataDTO.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

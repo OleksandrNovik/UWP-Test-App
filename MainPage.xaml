@@ -15,7 +15,6 @@
             <Setter Property="Orientation" Value="Vertical" />
             <Setter Property="Padding" Value="10" />
         </Style>
-        <common:EditedUserConverter x:Key="EditConverter" />
     </Page.Resources>
     
     <Grid Margin="0 10 0 0">
@@ -23,6 +22,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="90" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid>
@@ -50,19 +50,27 @@
                 AutoGenerateColumns="False" 
                 ItemsSource="{x:Bind Path=ViewModel.Users, Mode=OneWay}"
                 CanUserReorderColumns="False"
-                MinColumnWidth="40"
                 >
+                <controls:DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="20,10">
+                            <TextBlock Text="Error message" />
+                        </StackPanel>
+                    </DataTemplate>
+                </controls:DataGrid.RowDetailsTemplate>
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn
+                        MinWidth="180"
                         Header="First name"
                         Binding="{Binding FirstName}"
                         />
                     <controls:DataGridTextColumn
+                        MinWidth="180"
                         Header="Last name"
                         Binding="{Binding LastName}"
                         />
-                    
-                    <controls:DataGridTemplateColumn>
+
+                    <controls:DataGridTemplateColumn Width="*">
                         <controls:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Command="{Binding DeleteUserCommand, Source={StaticResource MainDataContext}}"
@@ -73,10 +81,9 @@
                             </DataTemplate>
                         </controls:DataGridTemplateColumn.CellTemplate>
                     </controls:DataGridTemplateColumn>
-                    
+
                 </controls:DataGrid.Columns>
             </controls:DataGrid>
-
         </Grid>
     </Grid>
 </Page>
