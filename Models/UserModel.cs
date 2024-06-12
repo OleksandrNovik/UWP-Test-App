@@ -108,5 +108,10 @@ namespace SecondApp.Models
             }
         }
 
+        public override string ToString()
+        {
+            return $"{this.FirstName} {this.LastName}";
+        }
+
     }
 }

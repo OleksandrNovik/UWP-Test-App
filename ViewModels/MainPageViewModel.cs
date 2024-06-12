@@ -124,25 +124,24 @@ namespace SecondApp.ViewModels
             }
             else
             {
-                var dialog = new ContentDialog
-                {
-                    Content = "Cannot add user with empty first or last name.",
-                    Title = "User's name is empty",
-                    CloseButtonText = "Ok"
-                };
-                await dialog.ShowAsync();
+                await Dialog.OkDialog("User's name is empty", "Cannot add user with empty first or last name.");
             }
         });
 
         /// <summary>
         /// Deletes user from the list
         /// </summary>
-        public ICommand DeleteUserCommand => new RelayCommand<UserModel>(user =>
+        public ICommand DeleteUserCommand => new RelayCommand<UserModel>(async user =>
         {
             if (user is null)
                 throw new ArgumentNullException("Null reference while deleting user.");
 
-            Users.Remove(user);
+            var selection = await Dialog.YesNoDialog("Deleting user data", $"Are you sure you want to delete \"{user}\"");
+
+            if (selection == ContentDialogResult.Primary)
+            {
+                Users.Remove(user);
+            }
         });
 
         #endregion

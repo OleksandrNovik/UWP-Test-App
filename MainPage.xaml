@@ -51,13 +51,13 @@
                 ItemsSource="{x:Bind Path=ViewModel.Users, Mode=OneWay}"
                 CanUserReorderColumns="False"
                 >
-                <controls:DataGrid.RowDetailsTemplate>
+                <!--<controls:DataGrid.RowDetailsTemplate>
                     <DataTemplate>
                         <StackPanel Margin="20,10">
                             <TextBlock Text="Error message" />
                         </StackPanel>
                     </DataTemplate>
-                </controls:DataGrid.RowDetailsTemplate>
+                </controls:DataGrid.RowDetailsTemplate>-->
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn
                         MinWidth="180"
