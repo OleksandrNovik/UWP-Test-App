@@ -38,7 +38,8 @@ namespace SecondApp.Models
         {
             if (edited)
             {
-                currentData = backUpData;
+                FirstName = backUpData.firstName;
+                LastName = backUpData.lastName;
                 edited = false;
             }
         }
