@@ -15,6 +15,7 @@
             <Setter Property="Orientation" Value="Vertical" />
             <Setter Property="Padding" Value="10" />
         </Style>
+        <common:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
     
     <Grid Margin="0 10 0 0">
@@ -51,24 +52,44 @@
                 ItemsSource="{x:Bind Path=ViewModel.Users, Mode=OneWay}"
                 CanUserReorderColumns="False"
                 >
-                <!--<controls:DataGrid.RowDetailsTemplate>
-                    <DataTemplate>
-                        <StackPanel Margin="20,10">
-                            <TextBlock Text="Error message" />
-                        </StackPanel>
-                    </DataTemplate>
-                </controls:DataGrid.RowDetailsTemplate>-->
                 <controls:DataGrid.Columns>
                     <controls:DataGridTextColumn
-                        MinWidth="180"
+                        MinWidth="200"
                         Header="First name"
                         Binding="{Binding FirstName}"
-                        />
+                        >
+                        <controls:DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="ToolTipService.ToolTip">
+                                    <Setter.Value>
+                                        <ToolTip Background="Crimson" 
+                                                 Visibility="{Binding HasErrors, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <TextBlock Text="First name cannot be empty" Foreground="White" />
+                                        </ToolTip>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </controls:DataGridTextColumn.ElementStyle>
+                    </controls:DataGridTextColumn>
+                    
                     <controls:DataGridTextColumn
-                        MinWidth="180"
+                        MinWidth="200"
                         Header="Last name"
                         Binding="{Binding LastName}"
-                        />
+                        >
+                        <controls:DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="ToolTipService.ToolTip">
+                                    <Setter.Value>
+                                        <ToolTip Background="Crimson" 
+                                                 Visibility="{Binding HasErrors, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <TextBlock Text="Last name cannot be empty" Foreground="White" />
+                                        </ToolTip>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </controls:DataGridTextColumn.ElementStyle>
+                    </controls:DataGridTextColumn>
 
                     <controls:DataGridTemplateColumn Width="*">
                         <controls:DataGridTemplateColumn.CellTemplate>

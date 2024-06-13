@@ -4,6 +4,7 @@ using SecondApp.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -68,6 +69,22 @@ namespace SecondApp.ViewModels
             }
         }
 
+        public bool HasValidationErrors => Users.Any(user => user.HasErrors);
+
+        #region Commands
+
+        /// <summary>
+        /// Adds user to the list
+        /// </summary>
+        public ICommand AddUserCommand => new RelayCommand<object>(AddUserAsync);
+
+        /// <summary>
+        /// Deletes user from the list
+        /// </summary>
+        public ICommand DeleteUserCommand => new RelayCommand<UserModel>(RemoveUserAsync);
+
+        #endregion
+
         /// <summary>
         /// Saving main data from application to a json file
         /// </summary>
@@ -107,12 +124,11 @@ namespace SecondApp.ViewModels
             }
         }
 
-        #region Commands
-
         /// <summary>
-        /// Adds user to the list
+        /// Method to add user if his name and last name are not empty
         /// </summary>
-        public ICommand AddUserCommand => new RelayCommand<object>(async o =>
+        /// <param name="o"> Object for running method as RelayCommand </param>
+        private async void AddUserAsync(object o)
         {
             // Check if inputed last and first name are not empty
             if (!string.IsNullOrWhiteSpace(CurrentFirstName)
@@ -126,12 +142,8 @@ namespace SecondApp.ViewModels
             {
                 await Dialog.OkDialog("User's name is empty", "Cannot add user with empty first or last name.");
             }
-        });
-
-        /// <summary>
-        /// Deletes user from the list
-        /// </summary>
-        public ICommand DeleteUserCommand => new RelayCommand<UserModel>(async user =>
+        }
+        private async void RemoveUserAsync(UserModel user)
         {
             if (user is null)
                 throw new ArgumentNullException("Null reference while deleting user.");
@@ -142,9 +154,7 @@ namespace SecondApp.ViewModels
             {
                 Users.Remove(user);
             }
-        });
-
-        #endregion
+        }
 
         #region INotifyProperyChanged
 
