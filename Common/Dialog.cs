@@ -6,6 +6,12 @@ namespace SecondApp.Common
 {
     public static class Dialog
     {
+        /// <summary>
+        /// Shows <see cref="ContentDialog"/> with "Ok" button option
+        /// </summary>
+        /// <param name="title"> Dialog title </param>
+        /// <param name="content"> Dialog content </param>
+        /// <returns> User's decision from dialog buttons </returns>
         public async static Task<ContentDialogResult> OkDialog(string title, string content)
         {
             var dialog = new ContentDialog
@@ -17,6 +23,12 @@ namespace SecondApp.Common
             return await dialog.ShowAsync();
         }
 
+        /// <summary>
+        /// Shows <see cref="ContentDialog"/> with "Yes" and "No" options
+        /// </summary>
+        /// <param name="title"> Dialog title </param>
+        /// <param name="content"> Dialog content </param>
+        /// <returns> User's decision from dialog buttons </returns>
         public async static Task<ContentDialogResult> YesNoDialog(string title, string content)
         {
             var dialog = new ContentDialog

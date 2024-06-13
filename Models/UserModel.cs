@@ -22,7 +22,7 @@ namespace SecondApp.Models
         public UserModel()
         {
             currentData = new UserData();
-            errorsValidator.ErrorsChanged += OnError;
+            errorsValidator.ErrorsChanged += OnErrorChanged;
         }
 
         public void BeginEdit()
@@ -60,7 +60,7 @@ namespace SecondApp.Models
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-        private void OnError(object sender, DataErrorsChangedEventArgs e)
+        private void OnErrorChanged(object sender, DataErrorsChangedEventArgs e)
         {
             ErrorsChanged?.Invoke(sender, e);
         }
@@ -69,18 +69,29 @@ namespace SecondApp.Models
             return errorsValidator.GetErrors(propertyName);
         }
 
+        /// <summary>
+        /// Checks if provided string value is empty
+        /// </summary>
+        /// <param name="value"> Value we are checking </param>
+        /// <param name="propertyName"> Name of property that is checked </param>
+        private void ValidateEmptyString(string value, string propertyName)
+        {
+            errorsValidator.RemoveError(propertyName);
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                errorsValidator.UpdateError(propertyName, $"{propertyName} cannot be empty");
+            }
+        }
+
         #endregion
         public string FirstName
         {
             get => currentData.firstName;
             set
             {
-                errorsValidator.RemoveError(nameof(FirstName));
+                ValidateEmptyString(value, nameof(FirstName));
 
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    errorsValidator.UpdateError(nameof(FirstName), $"First name cannot be empty.");
-                }
                 if (currentData.firstName != value)
                 {
                     currentData.firstName = value;
@@ -93,12 +104,7 @@ namespace SecondApp.Models
             get => currentData.lastName;
             set
             {
-                errorsValidator.RemoveError(nameof(LastName));
-
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    errorsValidator.UpdateError(nameof(LastName), $"Last name cannot be empty.");
-                }
+                ValidateEmptyString(value, nameof(LastName));
 
                 if (currentData.lastName != value)
                 {

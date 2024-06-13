@@ -4,7 +4,6 @@ using SecondApp.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -69,8 +68,6 @@ namespace SecondApp.ViewModels
             }
         }
 
-        public bool HasValidationErrors => Users.Any(user => user.HasErrors);
-
         #region Commands
 
         /// <summary>
@@ -127,7 +124,7 @@ namespace SecondApp.ViewModels
         /// <summary>
         /// Method to add user if his name and last name are not empty
         /// </summary>
-        /// <param name="o"> Object for running method as RelayCommand </param>
+        /// <param name="o"> Object for running method as RelayCommand <see cref="AddUserCommand"/> </param>
         private async void AddUserAsync(object o)
         {
             // Check if inputed last and first name are not empty

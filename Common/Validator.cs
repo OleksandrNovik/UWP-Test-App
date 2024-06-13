@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace SecondApp.Common
 {
+    /// <summary>
+    /// Class used to separate error creating and setting logic from models
+    /// Models can use composition to use all needed information nad logic
+    /// </summary>
     public class Validator : INotifyDataErrorInfo
     {
         private readonly Dictionary<string, string> errors = new Dictionary<string, string>();
