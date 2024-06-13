@@ -62,6 +62,7 @@ namespace SecondApp.Models
 
         private void OnErrorChanged(object sender, DataErrorsChangedEventArgs e)
         {
+            OnPropertyChanged(nameof(HasErrors));
             ErrorsChanged?.Invoke(sender, e);
         }
         public IEnumerable GetErrors(string propertyName)

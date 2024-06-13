@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace SecondApp.Common
+namespace SecondApp.Common.Converters
 {
     /// <summary>
     /// Realization of BoolToVisibilityConverter from WPF

@@ -119,7 +119,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\BoolToVisibilityConverter.cs" />
+    <Compile Include="Common\Converters\BoolToBrushConverter.cs" />
+    <Compile Include="Common\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Common\Dialog.cs" />
     <Compile Include="Common\FileOperator.cs" />
     <Compile Include="Common\RelayCommand.cs" />
