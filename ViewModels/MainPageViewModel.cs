@@ -4,14 +4,13 @@ using SecondApp.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 
 namespace SecondApp.ViewModels
 {
-    public class MainPageViewModel : INotifyPropertyChanged
+    public class MainPageViewModel : PropertyChangedModel, INotifyPropertyChanged
     {
         /// <summary>
         /// Fields for inputed first and last name for a new or editable user
@@ -152,16 +151,6 @@ namespace SecondApp.ViewModels
                 Users.Remove(user);
             }
         }
-
-        #region INotifyProperyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
 
     }
 }

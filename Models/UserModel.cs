@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace SecondApp.Models
 {
-    public class UserModel : BaseModel, IEditableObject, INotifyDataErrorInfo
+    public class UserModel : PropertyChangedModel, IEditableObject, INotifyDataErrorInfo
     {
         #region Editable Object
         private struct UserData

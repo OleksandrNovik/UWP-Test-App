@@ -6,7 +6,7 @@ namespace SecondApp.Models
     /// <summary>
     /// Base model is parent for all models and has base logic needed for a model 
     /// </summary>
-    public abstract class BaseModel : INotifyPropertyChanged
+    public abstract class PropertyChangedModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

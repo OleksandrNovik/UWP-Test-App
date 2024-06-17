@@ -8,7 +8,7 @@ namespace SecondApp.Common
 {
     /// <summary>
     /// Class used to separate error creating and setting logic from models
-    /// Models can use composition to use all needed information nad logic
+    /// Models can use composition to use all needed information had logic
     /// </summary>
     public class Validator : INotifyDataErrorInfo
     {
