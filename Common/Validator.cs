@@ -12,30 +12,30 @@ namespace SecondApp.Common
     /// </summary>
     public class Validator : INotifyDataErrorInfo
     {
-        private readonly Dictionary<string, string> errors = new Dictionary<string, string>();
-        public bool HasErrors => errors.Any();
+        private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
+        public bool HasErrors => _errors.Any();
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public void UpdateError(string propertyName, string errorMessage)
         {
-            if (!errors.ContainsKey(propertyName))
+            if (!_errors.ContainsKey(propertyName))
             {
-                errors.Add(propertyName, errorMessage);
+                _errors.Add(propertyName, errorMessage);
             }
-            errors[propertyName] = errorMessage;
+            _errors[propertyName] = errorMessage;
             OnErrorsChanged(propertyName);
         }
         public void RemoveError(string propertyName)
         {
-            if (errors.Remove(propertyName))
+            if (_errors.Remove(propertyName))
             {
                 OnErrorsChanged(propertyName);
             }
         }
         public IEnumerable GetErrors(string propertyName)
         {
-            return errors.GetValueOrDefault(propertyName ?? "");
+            return _errors.GetValueOrDefault(propertyName ?? "");
         }
         protected virtual void OnErrorsChanged(string propertyName)
         {

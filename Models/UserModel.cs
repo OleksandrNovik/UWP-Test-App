@@ -22,7 +22,7 @@ namespace SecondApp.Models
         public UserModel()
         {
             currentData = new UserData();
-            errorsValidator.ErrorsChanged += OnErrorChanged;
+            _errorsValidator.ErrorsChanged += OnErrorChanged;
         }
 
         public void BeginEdit()
@@ -56,8 +56,8 @@ namespace SecondApp.Models
 
         #region Error Validation
 
-        private readonly Validator errorsValidator = new Validator();
-        public bool HasErrors => errorsValidator.HasErrors;
+        private readonly Validator _errorsValidator = new Validator();
+        public bool HasErrors => _errorsValidator.HasErrors;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
@@ -68,7 +68,7 @@ namespace SecondApp.Models
         }
         public IEnumerable GetErrors(string propertyName)
         {
-            return errorsValidator.GetErrors(propertyName);
+            return _errorsValidator.GetErrors(propertyName);
         }
 
         /// <summary>
@@ -78,11 +78,11 @@ namespace SecondApp.Models
         /// <param name="propertyName"> Name of property that is checked </param>
         private void ValidateEmptyString(string value, string propertyName)
         {
-            errorsValidator.RemoveError(propertyName);
+            _errorsValidator.RemoveError(propertyName);
 
             if (string.IsNullOrWhiteSpace(value))
             {
-                errorsValidator.UpdateError(propertyName, $"{propertyName} cannot be empty");
+                _errorsValidator.UpdateError(propertyName, $"{propertyName} cannot be empty");
             }
         }
 
