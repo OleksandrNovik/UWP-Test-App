@@ -89,6 +89,8 @@ namespace SecondApp.ViewModels
         /// </summary>
         public ICommand SaveChangesCommand => new RelayCommand<UserModel>(user => user.EndEdit());
 
+        public ICommand EditUserCommand => new RelayCommand<UserModel>(user => user.BeginEdit());
+
         #endregion
 
         /// <summary>

@@ -202,11 +202,25 @@
                     <controls:DataGridTemplateColumn Width="*" IsReadOnly="True">
                         <controls:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Command="{Binding DeleteUserCommand, Source={StaticResource MainDataContext}}"
+                                <StackPanel Orientation="Horizontal">
+                                    <Button 
+                                        BorderThickness="1"
+                                        BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                        Command="{Binding EditUserCommand, Source={StaticResource MainDataContext}}"
                                         CommandParameter="{Binding}"
-                                        ToolTipService.ToolTip="Delete">
-                                    <SymbolIcon Symbol="Delete" />
-                                </Button>
+                                        ToolTipService.ToolTip="Edit">
+                                        <SymbolIcon Symbol="Edit" />
+                                    </Button>
+                                    <Button 
+                                        BorderThickness="1"
+                                        BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                        Command="{Binding DeleteUserCommand, Source={StaticResource MainDataContext}}"
+                                        CommandParameter="{Binding}"
+                                         ToolTipService.ToolTip="Delete">
+                                        <SymbolIcon Symbol="Delete" />
+                                    </Button>
+                                </StackPanel>
+  
                             </DataTemplate>
                         </controls:DataGridTemplateColumn.CellTemplate>
                     </controls:DataGridTemplateColumn>
