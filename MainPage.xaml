@@ -55,6 +55,10 @@
                 CanUserReorderColumns="False"
                 >
                 <controls:DataGrid.Resources>
+                    <Style TargetType="Button" x:Key="BorderButton">
+                        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                        <Setter Property="BorderThickness" Value="1" />
+                    </Style>
                     <Style TargetType="Rectangle" x:Key="ErrorIndicator">
                         <Setter Property="Fill" Value="Crimson" />
                         <Setter Property="Height" Value="7" />
@@ -204,16 +208,14 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Button 
-                                        BorderThickness="1"
-                                        BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                        Style="{StaticResource BorderButton}"
                                         Command="{Binding EditUserCommand, Source={StaticResource MainDataContext}}"
                                         CommandParameter="{Binding}"
                                         ToolTipService.ToolTip="Edit">
                                         <SymbolIcon Symbol="Edit" />
                                     </Button>
                                     <Button 
-                                        BorderThickness="1"
-                                        BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                        Style="{StaticResource BorderButton}"
                                         Command="{Binding DeleteUserCommand, Source={StaticResource MainDataContext}}"
                                         CommandParameter="{Binding}"
                                          ToolTipService.ToolTip="Delete">
