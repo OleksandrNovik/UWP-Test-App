@@ -26,7 +26,7 @@ namespace SecondApp.Common
         /// <param name="title"> Dialog title </param>
         /// <param name="content"> Dialog content </param>
         /// <returns> User's decision from dialog buttons </returns>
-        public async static Task<ContentDialogResult> OkDialog(string title, string content)
+        public static async Task<ContentDialogResult> OkDialog(string title, string content)
         {
             var dialog = DefaultDialog(title, content);
             dialog.CloseButtonText = "Ok";
@@ -39,7 +39,7 @@ namespace SecondApp.Common
         /// <param name="title"> Dialog title </param>
         /// <param name="content"> Dialog content </param>
         /// <returns> User's decision from dialog buttons </returns>
-        public async static Task<ContentDialogResult> YesNoDialog(string title, string content)
+        public static async Task<ContentDialogResult> YesNoDialog(string title, string content)
         {
             var dialog = DefaultDialog(title, content);
             dialog.PrimaryButtonText = "Yes";

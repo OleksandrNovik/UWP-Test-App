@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace SecondApp.Common
 {
@@ -13,18 +12,16 @@ namespace SecondApp.Common
     public class Validator : INotifyDataErrorInfo
     {
         private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
-        public bool HasErrors => _errors.Any();
+        public bool HasErrors => _errors.Count > 0;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public void UpdateError(string propertyName, string errorMessage)
         {
-            if (!_errors.ContainsKey(propertyName))
+            if (_errors.TryAdd(propertyName, errorMessage))
             {
-                _errors.Add(propertyName, errorMessage);
+                OnErrorsChanged(propertyName);
             }
-            _errors[propertyName] = errorMessage;
-            OnErrorsChanged(propertyName);
         }
         public void RemoveError(string propertyName)
         {
