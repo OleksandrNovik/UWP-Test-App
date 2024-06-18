@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:SecondApp.Common.Converters"
-    xmlns:models="using:SecondApp.Models" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:models="using:SecondApp.Models" 
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -62,6 +63,7 @@
                         <Setter Property="HorizontalAlignment" Value="Right" />
                     </Style>
                 </controls:DataGrid.Resources>
+                
                 <controls:DataGrid.Columns>
                     <controls:DataGridTemplateColumn Header="First name" MinWidth="200">
                         <controls:DataGridTemplateColumn.CellTemplate>
@@ -178,7 +180,26 @@
                         </controls:DataGridTemplateColumn.CellEditingTemplate>
                     </controls:DataGridTemplateColumn>
 
-                    <controls:DataGridTemplateColumn Width="*">
+                    <controls:DataGridTemplateColumn Width="160" IsReadOnly="True">
+                        <controls:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate x:DataType="models:UserModel">
+                                <StackPanel Orientation="Horizontal" 
+                                            Visibility="{x:Bind Path=IsEdited, Mode=OneWay,
+                                                            Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Button 
+                                        Command="{Binding SaveChangesCommand, Source={StaticResource MainDataContext}}"
+                                        CommandParameter="{Binding}"
+                                        Width="80">Save</Button>
+                                    <Button 
+                                        Command="{Binding CancelChangesCommand, Source={StaticResource MainDataContext}}"
+                                        CommandParameter="{Binding}"
+                                        Width="80">Cancel</Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </controls:DataGridTemplateColumn.CellTemplate>
+                    </controls:DataGridTemplateColumn>
+
+                    <controls:DataGridTemplateColumn Width="*" IsReadOnly="True">
                         <controls:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Command="{Binding DeleteUserCommand, Source={StaticResource MainDataContext}}"

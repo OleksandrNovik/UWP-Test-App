@@ -1,4 +1,5 @@
-﻿using SecondApp.Common;
+﻿using Newtonsoft.Json;
+using SecondApp.Common;
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -30,7 +31,7 @@ namespace SecondApp.Models
             if (!edited)
             {
                 backUpData = currentData;
-                edited = true;
+                IsEdited = true;
             }
         }
 
@@ -40,7 +41,7 @@ namespace SecondApp.Models
             {
                 FirstName = backUpData.firstName;
                 LastName = backUpData.lastName;
-                edited = false;
+                IsEdited = false;
             }
         }
 
@@ -49,7 +50,7 @@ namespace SecondApp.Models
             if (edited)
             {
                 backUpData = new UserData();
-                edited = false;
+                IsEdited = false;
             }
         }
         #endregion
@@ -116,6 +117,19 @@ namespace SecondApp.Models
             }
         }
 
+        [JsonIgnore]
+        public bool IsEdited
+        {
+            get => edited;
+            set
+            {
+                if (edited != value)
+                {
+                    edited = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public override string ToString()
         {
             return $"{this.FirstName} {this.LastName}";

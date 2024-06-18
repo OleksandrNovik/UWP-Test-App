@@ -79,6 +79,16 @@ namespace SecondApp.ViewModels
         /// </summary>
         public ICommand DeleteUserCommand => new RelayCommand<UserModel>(RemoveUserAsync);
 
+        /// <summary>
+        /// Cancels all changes made by editing user data in the table
+        /// </summary>
+        public ICommand CancelChangesCommand => new RelayCommand<UserModel>(user => user.CancelEdit());
+
+        /// <summary>
+        /// Saves changes made by editing user data in the table
+        /// </summary>
+        public ICommand SaveChangesCommand => new RelayCommand<UserModel>(user => user.EndEdit());
+
         #endregion
 
         /// <summary>
